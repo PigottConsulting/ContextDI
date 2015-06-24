@@ -1,0 +1,33 @@
+{
+    "name": "techdata/context-di-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony2 library to allow for context aware services.",
+    "keywords": [
+        "symfony",
+        "context"
+    ],
+    "homepage": "https://github.com/TechData/ContextDI",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Westin Pigott",
+            "email": "westin.pigott@techdata.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/symfony": ">=2.3.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "TechData\\ContextDiBundle": ""
+        }
+    },
+    "minimum-stability": "dev",
+    "target-dir": "TechData/ContextDiBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
+}
