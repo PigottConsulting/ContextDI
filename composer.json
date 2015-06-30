@@ -23,7 +23,7 @@
             "TechData\\ContextDiBundle": ""
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "target-dir": "TechData/ContextDiBundle",
     "extra": {
         "branch-alias": {
