@@ -11,7 +11,7 @@ class ContextProviderCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         // Get the reference for the handler service
-        $handlerReference = new Reference('tech_data_context_di.context_handler');
+        $handlerReference = $container->getDefinition('tech_data_context_di.context_handler');
 
         // Loop through all the context_provider tags and add the services to the context handler service
         $taggedServices = $container->findTaggedServiceIds('context_provider');

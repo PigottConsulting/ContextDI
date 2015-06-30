@@ -17,12 +17,12 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('context_di');
+        $rootNode = $treeBuilder->root('tech_data_context_di');
 
         $rootNode
             ->children()
                 ->arrayNode('available_contexts')
-                    ->useAttributesAsKey('name')
+                    ->useAttributeAsKey('name')
                     ->prototype('scalar')->end()
                 ->end()
                 ->scalarNode('cache_service')

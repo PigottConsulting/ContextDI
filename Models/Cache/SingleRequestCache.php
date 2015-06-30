@@ -16,7 +16,7 @@ class SingleRequestCache implements ContextCacheInterface
 
     public function getContext($name)
     {
-        if (!$this->hasValue($name)) {
+        if (!$this->hasContext($name)) {
             throw new ContextCacheException('Value for "' . $name . '" does not exist in cache.');
         }
         return $this->values[$name];

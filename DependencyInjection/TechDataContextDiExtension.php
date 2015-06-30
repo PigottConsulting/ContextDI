@@ -22,12 +22,15 @@ class TechDataContextDiExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('services.xml');
+        
         // Get the available contexts from the config
         $availableContexts = array();
         if (isset($config['available_contexts']) && is_array($config['available_contexts'])) {
             $availableContexts = $config['available_contexts'];
         }
-
+        
         // Add the possible contexts to the container for later use
         $container->setParameter('tech_data_context_di.context_handler.available_contexts', $availableContexts);
 
@@ -41,12 +44,11 @@ class TechDataContextDiExtension extends Extension
 
         $container->setAlias('tech_data_context_di.cache', $config['cache_service']);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.xml');
+        
     }
 
     public function getAlias()
     {
-        return 'context_di';
+        return 'tech_data_context_di';
     }
 }

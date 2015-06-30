@@ -1,12 +1,13 @@
 <?php namespace TechData\ContextDiBundle\Models;
 
-use TechData\ContextDiBundle\Interfaces\ContextConsumerInterface;
 use TechData\ContextDiBundle\Interfaces\ContextProviderInterface;
+use TechData\ContextDiBundle\Interfaces\ContextInterface;
 use TechData\ContextDiBundle\Interfaces\ContextCacheInterface;
 use TechData\ContextDiBundle\Exceptions\ContextNotProvidedException;
 use TechData\ContextDiBundle\Exceptions\ContextException;
 use Psr\Log\LoggerInterface;
-use \Exception;
+use ReflectionException;
+use ReflectionClass;
 
 /**
  * Description of ContextHandler
@@ -77,7 +78,9 @@ class ContextHandler
         // Try to resolve it.
         foreach ($this->providers[$name] as $provider) {
             try {
-                return $this->returnValidContextFromProvider($provider);
+                $context = $this->returnValidContextFromProvider($provider);
+                $this->validateContextObjectType($name, $context);
+                return $context;
             } catch (ContextNotProvidedException $e) {
                 // Log it and move on.
                 $this->logger->debug($e->getMessage(), array('ContextHandler', 'resolveContext'));
@@ -96,5 +99,36 @@ class ContextHandler
             return $context;
         }
         throw new ContextNotProvidedException('Unable to determine context from "' . get_class($provider) . '".');
+    }
+    
+    private function validateContextObjectType($contextName, ContextInterface $context) 
+    {
+        // Check that the context name matches the name being requested.
+        if($contextName != $context->getContextName()) {
+            $e = new ContextNotProvidedException('Context name does not match.');
+            $this->logger->debug($e->getMessage(), array('ContextHandler', 'validateContextObjectType'));
+            throw $e;
+        }
+        
+        
+        // Check that the object in the context is the correct type.
+        try {
+            $objectReflection = new ReflectionClass($context->getEntity());
+            $interfaceReflection = new ReflectionClass($this->availableContexts[$contextName]);
+            if(($interfaceReflection->isInterface() && ($objectReflection->implementsInterface($this->availableContexts[$contextName]))) 
+                    || ($objectReflection->isSubclassOf($this->availableContexts[$contextName]))
+                    || ($objectReflection->getName() == $this->availableContexts[$contextName])) {
+                return TRUE;                
+            }
+        } catch (ReflectionException $e) {
+            $e = new ContextNotProvidedException($e->getMessage(), NULL, $e);
+            $this->logger->debug($e->getMessage(), array('ContextHandler', 'validateContextObjectType'));
+            throw $e;
+        }
+        
+        // Incorrect context type returned
+        $e = new ContextNotProvidedException('Provider returned incorrect type: "' . get_class($context->getEntity()) . '".  Expecting: "'. $this->availableContexts[$contextName].'".');
+        $this->logger->debug($e->getMessage(), array('ContextHandler', 'validateContextObjectType'));
+        throw $e;
     }
 }
