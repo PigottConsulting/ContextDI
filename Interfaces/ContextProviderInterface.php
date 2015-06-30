@@ -16,10 +16,4 @@ interface ContextProviderInterface
      */
     public function getContext();
 
-    /**
-     * @return string A valid class/interface which the context extends/implements.
-     * This is used by the context handler to validate the context is a valid type.
-     * Example: The UserContextProvider would return "Some\Name\Space\UserInterface"
-     */
-    public function getContextType();
 }

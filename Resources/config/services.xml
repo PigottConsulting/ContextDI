@@ -7,7 +7,6 @@
 
     <parameters>
         <parameter key="tech_data_context_di.context_handler.class">TechData\ContextDiBundle\Models\ContextHandler</parameter>
-        <parameter key="tech_data_context_di.cache.single_request.class">TechData\ContextDiBundle\Models\Cache\SingleRequestCache</parameter>
     </parameters>
 
     <services>
@@ -19,7 +18,7 @@
         </service>
         
         <!-- Cache -->
-        <service id="tech_data_context_di.cache.single_request" class="%tech_data_context_di.cache.single_request.class%" public="false" />
+        <service id="tech_data_context_di.cache.single_request" class="TechData\ContextDiBundle\Models\Cache\SingleRequestCache" public="false" />
     </services>
 
 </container>

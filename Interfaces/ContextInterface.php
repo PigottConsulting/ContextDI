@@ -7,17 +7,13 @@
 interface ContextInterface
 {
 
+    public function __construct($contextName, $entity);
+    
     public function getContextName();
-
-    public function getId();
 
     /**
      * @return Object
      */
     public function getEntity();
-
-    /**
-     * @return string
-     */
-    public function getEntityType();
+    
 }
