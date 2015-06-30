@@ -37,7 +37,7 @@ class ContextConsumerCompilerPass implements CompilerPassInterface {
     private function getServiceFactory(ContainerBuilder $container, $contextName) {
         if (!array_key_exists($contextName, $this->serviceDefinistions)) {
             $def = new Definition();
-            $def->setClass();
+            $def->setClass('TechData\ContextDiBundle\Models\Context');
             $def->setLazy(TRUE);
             $def->setFactoryService('tech_data_context_di.context_handler');
             $def->setFactoryMethod('getContext');
